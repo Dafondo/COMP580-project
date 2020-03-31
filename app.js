@@ -18,7 +18,22 @@ recordButton.addEventListener("click", startRecording);
 stopButton.addEventListener("click", stopRecording);
 pauseButton.addEventListener("click", pauseRecording);
 
-function startRecording() {
+
+document.onkeyup = function(e){
+
+	if (e.which == 32){				//space button to start recording
+		e.preventDefault();
+		startRecording();
+	}else if(e.which == 16){		//shift button to pause recording
+		e.preventDefault();
+		pauseRecording();
+	}else if(e.which == 13){		//enter button to stop recording 
+		e.preventDefault();
+		stopRecording();
+	}
+}
+
+ function startRecording() {
 	console.log("recordButton clicked");
 
 	/*

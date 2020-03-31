@@ -98,9 +98,15 @@ li {
 
 #formats {
   margin-top: 0.5rem;
-  font-size: 80%;
+  font-size: 120%;
+  font-weight: bold;
+	color: #005A9C;
 }
 
 #recordingsList{
 	max-width: 28em;
+}
+
+#btnInstr{
+  font-size:150%
 }
