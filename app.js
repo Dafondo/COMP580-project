@@ -182,7 +182,12 @@ function createDownloadLink(blob) {
 	// }).toMaster().sync().start("3:3", "4n"); //start with an offset
 
 	// bind the transport
-	document.getElementById("playTrackButton").addEventListener('click', e => Tone.Transport.toggle())
+	document.getElementById("playTrackButton").addEventListener('click', e => {
+		if (Tone.context.state !== 'running') {
+			Tone.context.resume();
+		}
+		Tone.Transport.toggle()
+	});
 
 	//add controls to the <audio> element
 	au.controls = true;
