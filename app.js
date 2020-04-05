@@ -22,16 +22,16 @@ createButton.addEventListener("click", createSong);
 
 document.onkeyup = function(e){
 
-	if (e.which == 32){				//space button to start recording
+	if (e.which == 32){				//space key to start recording
 		e.preventDefault();
 		startRecording();
-	}else if(e.which == 16){		//shift button to pause recording
+	}else if(e.which == 9){			//tab key to pause recording
 		e.preventDefault();
 		pauseRecording();
-	}else if(e.which == 13){		//enter button to stop recording 
+	}else if(e.which == 16){		//shift button to stop recording 
 		e.preventDefault();
 		stopRecording();
-	}else if (e.which == 16){		//shift button to create song
+	}else if (e.which == 13){		//enter button to create song
 		e.preventDefault();	
 		createSong()
 	}
@@ -120,6 +120,7 @@ function stopRecording() {
 	stopButton.disabled = true;
 	recordButton.disabled = false;
 	pauseButton.disabled = true;
+	createButton.disabled=false;
 
 	//reset button just in case the recording is stopped while paused
 	pauseButton.innerHTML="Pause";
@@ -136,6 +137,12 @@ function stopRecording() {
 
 function createSong(){
 	console.log("createButton clicked");
+
+	stopButton.disabled = true;
+	recordButton.disabled = false;
+	pauseButton.disabled = true;
+	createButton.disabled=true;
+
 }
 
 function createDownloadLink(blob) {
