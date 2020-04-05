@@ -156,16 +156,14 @@ function createDownloadLink(blob) {
 	Tone.Transport.loopEnd = "8m";
 	
 	// create audio from file
-	var player = new Tone.Player({
-		url : url,
-		loop : true },
-		() => {
-		// onload function triggers after file is loaded
-		// sync the audio file to transport
-		player.sync().start(0);
-		// toggle transport from pause to play mode
-		Tone.Transport.toggle();
-	}).toMaster();
+	var player = new Tone.Player(
+		{
+			url : url,
+			loop : true 
+		}
+	).toMaster().sync().start(0);
+
+	// Tone.Transport.toggle();
 
 	// Unused example code
 	// var kick = new Tone.Player({
@@ -183,12 +181,8 @@ function createDownloadLink(blob) {
 	// 	loop : true
 	// }).toMaster().sync().start("3:3", "4n"); //start with an offset
 
-	//bind the transport
-	// document.querySelector("tone-play-toggle").bind(Tone.Transport);
-	// document.querySelector("tone-position").bind(Tone.Transport);
-	// document.querySelector("tone-position").addEventListener("position", e => {
-	// 	document.querySelector("#progress").style = `left: ${e.detail*100}%`;
-	// });
+	// bind the transport
+	document.getElementById("playTrackButton").addEventListener('click', e => Tone.Transport.toggle())
 
 	//add controls to the <audio> element
 	au.controls = true;
