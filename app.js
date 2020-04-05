@@ -137,3 +137,99 @@ function stopRecording() {
 function createSong(){
 	console.log("createButton clicked");
 }
+
+function createDownloadLink(blob) {
+
+	var url = URL.createObjectURL(blob);
+	var au = document.createElement('audio');
+	var li = document.createElement('li');
+    var link = document.createElement('a');
+    var linebreak= document.createElement("br");
+
+	// name of .wav file to use during upload and download (without extendion)
+	var filename = new Date().toISOString();
+
+	// set the transport
+	Tone.Transport.bpm.value = 108;
+	Tone.Transport.loop = true;
+	Tone.Transport.loopStart = "4m";
+	Tone.Transport.loopEnd = "8m";
+	
+	// create audio from file
+	var player = new Tone.Player({
+		url : url,
+		loop : true },
+		() => {
+		// onload function triggers after file is loaded
+		// sync the audio file to transport
+		player.sync().start(0);
+		// toggle transport from pause to play mode
+		Tone.Transport.toggle();
+	}).toMaster();
+
+	// Unused example code
+	// var kick = new Tone.Player({
+	// 	url : "./audio/loop/kick.[mp3|ogg]",
+	// 	loop : true
+	// }).toMaster().sync().start(0);
+
+	// var snare = new Tone.Player({
+	// 	url : "./audio/loop/snare.[mp3|ogg]",
+	// 	loop : true
+	// }).toMaster().sync().start("2n");
+
+	// var hh = new Tone.Player({
+	// 	url : "./audio/loop/hh.[mp3|ogg]",
+	// 	loop : true
+	// }).toMaster().sync().start("3:3", "4n"); //start with an offset
+
+	//bind the transport
+	// document.querySelector("tone-play-toggle").bind(Tone.Transport);
+	// document.querySelector("tone-position").bind(Tone.Transport);
+	// document.querySelector("tone-position").addEventListener("position", e => {
+	// 	document.querySelector("#progress").style = `left: ${e.detail*100}%`;
+	// });
+
+	//add controls to the <audio> element
+	au.controls = true;
+	au.src = url;
+
+    //save to disk link
+    li.appendChild(linebreak);
+    link.href = url;
+	link.download = filename+".wav"; //download forces the browser to donwload the file using the  filename
+    link.innerHTML = "Save to disk";
+
+	//add the new audio element to li
+    li.appendChild(au);
+    li.appendChild(linebreak);
+
+	//add the filename to the li
+	li.appendChild(document.createTextNode(filename+".wav "))
+
+	//add the save to disk link to li
+	li.appendChild(link);
+
+    //upload link
+    li.appendChild(linebreak);
+	var upload = document.createElement('a');
+	upload.href="#";
+	upload.innerHTML = "Upload";
+	upload.addEventListener("click", function(event){
+		  var xhr=new XMLHttpRequest();
+		  xhr.onload=function(e) {
+		      if(this.readyState === 4) {
+		          console.log("Server returned: ",e.target.responseText);
+		      }
+		  };
+		  var fd=new FormData();
+		  fd.append("audio_data",blob, filename);
+		  xhr.open("POST","upload.php",true);
+		  xhr.send(fd);
+	})
+	li.appendChild(document.createTextNode (" "))//add a space in between
+	li.appendChild(upload)//add the upload link to li
+
+	//add the li element to the ol
+	recordingsList.appendChild(li);
+}
