@@ -173,10 +173,10 @@ function createDownloadLink(blob) {
 	// Tone.Transport.toggle();
 
 	// Unused example code
-	// var kick = new Tone.Player({
-	// 	url : "./audio/loop/kick.[mp3|ogg]",
-	// 	loop : true
-	// }).toMaster().sync().start(0);
+	var kick = new Tone.Player({
+		url : "./audio/track1.mp3",
+	 	loop : true
+	}).toMaster().sync().start(0);
 
 	// var snare = new Tone.Player({
 	// 	url : "./audio/loop/snare.[mp3|ogg]",
