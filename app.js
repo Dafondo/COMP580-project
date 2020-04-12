@@ -159,16 +159,38 @@ function createDownloadLink(blob) {
 	// set the transport
 	Tone.Transport.bpm.value = 108;
 	Tone.Transport.loop = true;
-	Tone.Transport.loopStart = "4m";
-	Tone.Transport.loopEnd = "8m";
-	
-	// create audio from file
-	var player = new Tone.Player(
-		{
-			url : url,
-			loop : true ,
+	Tone.Transport.loopStart = "0m";
+	Tone.Transport.loopEnd = "2m";
+
+	const synth = new Tone.Sampler(
+	{
+		A1: url,
+	},
+	{
+		onload: () => {
+			console.log("loaded");
+			document.getElementById("playTrackButton").removeAttribute("disabled");
 		}
-	).toMaster().sync().start(0);
+	}
+	).toMaster();
+
+	synth.sync();
+	synth.triggerAttackRelease('A1', '2n', 0);
+	synth.triggerAttackRelease('C2', '2n', '2n');
+	synth.triggerAttackRelease('G1', '4n', '1m');
+	synth.triggerAttackRelease('G1', '4n', '1:1');
+
+	// document.getElementById("playTrackButton").addEventListener("click", () => {
+	// 	sampler.triggerAttack("A2");
+	//   });
+	  
+	// create audio from file
+	// var player = new Tone.Player(
+	// 	{
+	// 		url : url,
+	// 		loop : true ,
+	// 	}
+	// ).toMaster().sync().start(0);
 
 	// Tone.Transport.toggle();
 
@@ -176,17 +198,8 @@ function createDownloadLink(blob) {
 	var kick = new Tone.Player({
 		url : "./audio/track3.mp3",
 		loop : true
-	}).toMaster().sync().start(0);
-
-	// var snare = new Tone.Player({
-	// 	url : "./audio/loop/snare.[mp3|ogg]",
-	// 	loop : true
-	// }).toMaster().sync().start("2n");
-
-	// var hh = new Tone.Player({
-	// 	url : "./audio/loop/hh.[mp3|ogg]",
-	// 	loop : true
-	// }).toMaster().sync().start("3:3", "4n"); //start with an offset
+		}
+	).toMaster().sync().start(0);
 
 	// bind the transport
 	document.getElementById("playTrackButton").addEventListener('click', e => {
