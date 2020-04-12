@@ -166,7 +166,7 @@ function createDownloadLink(blob) {
 	var player = new Tone.Player(
 		{
 			url : url,
-			loop : true 
+			loop : true ,
 		}
 	).toMaster().sync().start(0);
 
@@ -174,8 +174,8 @@ function createDownloadLink(blob) {
 
 	// Unused example code
 	var kick = new Tone.Player({
-		url : "./audio/track1.mp3",
-	 	loop : true
+		url : "./audio/track3.mp3",
+		loop : true
 	}).toMaster().sync().start(0);
 
 	// var snare = new Tone.Player({
