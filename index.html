@@ -44,15 +44,18 @@
     
     <h2>Audio Tracks</h2>
     <form action=""> 
-      
     
-      <audio controls="controls">
+      <input type = "radio" id = "track3radio" name="track" value="track3"> 
+      <label>Track 3</label> </br>
+      <audio controls="controls" id="track3audio" preload="auto">
         <source src = "audio/track3.mp3" type ="audio/mpeg" /> 
-    </audio>
-   
-    <audio controls="controls"> 
-      <source src = "audio/track2.mp3" type ="audio/mpeg" /> 
-    </audio>
+      </audio> </br>
+
+      <input type = "radio" id = "track2radio" name="track" value="track2"> 
+      <label>Track 2</label> </br>
+      <audio controls="controls" id = "track2audio" preload="auot"> 
+        <source src = "audio/track2.mp3" type ="audio/mpeg" /> 
+      </audio> </br>
 
     </form>
      

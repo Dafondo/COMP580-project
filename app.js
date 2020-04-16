@@ -158,10 +158,6 @@ function createDownloadLink(blob) {
 	// name of .wav file to use during upload and download (without extendion)
 	var filename = new Date().toISOString();
 
-	var btTime=0;
-	var repeatLoop=0;
-
-	
 	//add controls to the <audio> element
 	au.controls = true;
 	au.src = url;
@@ -206,91 +202,103 @@ function createDownloadLink(blob) {
 
 	//add the li element to the ol
 	recordingsList.appendChild(li);
-
+	
 	//getting the duration of input audio
 	var InputTimeVar = document.getElementById("recordingID");
+	var track3input = document.getElementById("track3radio");
+	var track2input = document.getElementById("track2radio");
 	var InputTime = null;
+	var btTime=0;
+	var repeatLoop=0;
+	var btURL;
+
 	InputTimeVar.onloadedmetadata = function() {
 		console.log("time: " + InputTimeVar.duration);
 		console.log("time: " + Math.ceil(InputTimeVar.duration));
 		InputTime = Math.ceil(InputTimeVar.duration);
 
-		//duration of backtrack audio
-	btTime = Math.ceil(document.getElementById("track3").duration);
-	console.log("btTime: " + btTime);
+	//duration of backtrack audio
 
-	
-	repeatLoop = Math.ceil(btTime/InputTime);
-	console.log("repeatLoop: " + repeatLoop);
-	};
-	console.log("hello")
-	
+		if(track3input.checked ){
+			btURL = "./audio/track3.mp3";
+			console.log(btURL);
+			btTime = Math.ceil(document.getElementById("track3audio").duration);
+			console.log("btTime: " + btTime);
+		}else if (track2input.checked){
+			btURL = "./audio/track2.mp3";
+			console.log(btURL);
+			btTime = Math.ceil(document.getElementById("track2audio").duration);
+			console.log("btTime: " + btTime);
 
-//syncing input and backtrack
-
-	// set the transport
-	Tone.Transport.bpm.value = 108;
-	Tone.Transport.loop = true;
-	Tone.Transport.loopStart = "0m";
-	Tone.Transport.loopEnd = "2m";
-
-	//user input audio
-	const synth = new Tone.Sampler(
-	{
-		A1: url,
-	},
-	{
-		onload: () => {
-			console.log("loaded synth");
-			document.getElementById("playTrackButton").removeAttribute("disabled");
-			Tone.Transport.start();
 		}
-	}
-	).toMaster();
-	
-	//backtrack 
-	const kick = new Tone.Sampler(
+		// btTime = Math.ceil(document.getElementById("track3").duration);
+		// console.log("btTime: " + btTime);
+
+		
+		repeatLoop = Math.ceil(btTime/InputTime);
+		console.log("repeatLoop: " + repeatLoop);
+
+		Tone.Transport.bpm.value = 108;
+		Tone.Transport.loop = true;
+		Tone.Transport.loopStart = "0m";
+		Tone.Transport.loopEnd = "2m";
+
+		//user input audio
+		const synth = new Tone.Sampler(
 		{
-			B1: "./audio/track3.mp3",
+			A1: url,
 		},
 		{
 			onload: () => {
-				console.log("loaded kick");
+				console.log("loaded synth");
 				document.getElementById("playTrackButton").removeAttribute("disabled");
 				Tone.Transport.start();
 			}
 		}
 		).toMaster();
 
-	//bind the transport
-	document.getElementById("playTrackButton").addEventListener('click', e => {
-		//synth.triggerAttackRelease('A1',InputTime);
-		var i;
-		var count=0;
-		for (i =0; count < btTime; i++){
-			count = InputTime+count;
-			//triggerAttackRelease(note, duration of note, time when to start)
-			synth.triggerAttackRelease('A1',InputTimeVar.duration, count);
-				
-		}
-		synth.sync();
-		kick.triggerAttackRelease('B1', btTime);
-		kick.sync();
-		console.log('pass trigger');
+		console.log(btURL)
 
-		if (Tone.context.state !== 'running') {
-			Tone.context.resume();
+		//backtrack 
+		const kick = new Tone.Sampler(
+			{
+				B1: btURL,
+			},
+			{
+				onload: () => {
+					console.log("loaded kick");
+					document.getElementById("playTrackButton").removeAttribute("disabled");
+					Tone.Transport.start();
+				}
+			}
+			).toMaster();
 
-		Tone.Transport.toggle()
-		console.log('finished')
-		}
+		//bind the transport
+		document.getElementById("playTrackButton").addEventListener('click', e => {
+			//synth.triggerAttackRelease('A1',InputTime);
+			var i;
+			var count=0;
+			for (i =0; count < btTime; i++){
+				count = InputTime+count;
+				//triggerAttackRelease(note, duration of note, time when to start)
+				synth.triggerAttackRelease('A1',InputTimeVar.duration, count);
+					
+			}
+			synth.sync();
+			kick.triggerAttackRelease('B1', btTime);
+			kick.sync();
+			console.log('pass trigger');
 
-		
+			if (Tone.context.state !== 'running') {
+				Tone.context.resume();
 
-		
-	});
+			Tone.Transport.toggle()
+			console.log('finished')
+			}
+			
+		});
 
-
+	};
 	
 }
 
