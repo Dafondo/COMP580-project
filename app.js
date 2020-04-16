@@ -145,6 +145,8 @@ function createSong(){
 
 }
 
+var buffer1=null;
+var buffer2 = null; 
 function createDownloadLink(blob) {
 
 	var url = URL.createObjectURL(blob);
@@ -156,62 +158,15 @@ function createDownloadLink(blob) {
 	// name of .wav file to use during upload and download (without extendion)
 	var filename = new Date().toISOString();
 
-	// set the transport
-	Tone.Transport.bpm.value = 108;
-	Tone.Transport.loop = true;
-	Tone.Transport.loopStart = "0m";
-	Tone.Transport.loopEnd = "2m";
+	var btTime=0;
+	var repeatLoop=0;
 
-	const synth = new Tone.Sampler(
-	{
-		A1: url,
-	},
-	{
-		onload: () => {
-			console.log("loaded");
-			document.getElementById("playTrackButton").removeAttribute("disabled");
-		}
-	}
-	).toMaster();
-
-	synth.sync();
-	synth.triggerAttackRelease('A1', '2n', 0);
-	synth.triggerAttackRelease('C2', '2n', '2n');
-	synth.triggerAttackRelease('G1', '4n', '1m');
-	synth.triggerAttackRelease('G1', '4n', '1:1');
-
-	// document.getElementById("playTrackButton").addEventListener("click", () => {
-	// 	sampler.triggerAttack("A2");
-	//   });
-	  
-	// create audio from file
-	// var player = new Tone.Player(
-	// 	{
-	// 		url : url,
-	// 		loop : true ,
-	// 	}
-	// ).toMaster().sync().start(0);
-
-	// Tone.Transport.toggle();
-
-	// Unused example code
-	var kick = new Tone.Player({
-		url : "./audio/track3.mp3",
-		loop : true
-		}
-	).toMaster().sync().start(0);
-
-	// bind the transport
-	document.getElementById("playTrackButton").addEventListener('click', e => {
-		if (Tone.context.state !== 'running') {
-			Tone.context.resume();
-		}
-		Tone.Transport.toggle()
-	});
-
+	
 	//add controls to the <audio> element
 	au.controls = true;
 	au.src = url;
+	au.id="recordingID";
+	//au.preload="metadata";
 
     //save to disk link
     li.appendChild(linebreak);
@@ -220,7 +175,7 @@ function createDownloadLink(blob) {
     link.innerHTML = "Save to disk";
 
 	//add the new audio element to li
-    li.appendChild(au);
+	li.appendChild(au);
     li.appendChild(linebreak);
 
 	//add the filename to the li
@@ -251,4 +206,91 @@ function createDownloadLink(blob) {
 
 	//add the li element to the ol
 	recordingsList.appendChild(li);
+
+	//getting the duration of input audio
+	var InputTimeVar = document.getElementById("recordingID");
+	var InputTime = null;
+	InputTimeVar.onloadedmetadata = function() {
+		console.log("time: " + InputTimeVar.duration);
+		console.log("time: " + Math.ceil(InputTimeVar.duration));
+		InputTime = Math.ceil(InputTimeVar.duration);
+
+		//duration of backtrack audio
+	btTime = Math.ceil(document.getElementById("track3").duration);
+	console.log("btTime: " + btTime);
+
+	
+	repeatLoop = Math.ceil(btTime/InputTime);
+	console.log("repeatLoop: " + repeatLoop);
+	};
+	console.log("hello")
+	
+
+//syncing input and backtrack
+
+	// set the transport
+	Tone.Transport.bpm.value = 108;
+	Tone.Transport.loop = true;
+	Tone.Transport.loopStart = "0m";
+	Tone.Transport.loopEnd = "2m";
+
+	//user input audio
+	const synth = new Tone.Sampler(
+	{
+		A1: url,
+	},
+	{
+		onload: () => {
+			console.log("loaded synth");
+			document.getElementById("playTrackButton").removeAttribute("disabled");
+			Tone.Transport.start();
+		}
+	}
+	).toMaster();
+	
+	//backtrack 
+	const kick = new Tone.Sampler(
+		{
+			B1: "./audio/track3.mp3",
+		},
+		{
+			onload: () => {
+				console.log("loaded kick");
+				document.getElementById("playTrackButton").removeAttribute("disabled");
+				Tone.Transport.start();
+			}
+		}
+		).toMaster();
+
+	//bind the transport
+	document.getElementById("playTrackButton").addEventListener('click', e => {
+		//synth.triggerAttackRelease('A1',InputTime);
+		var i;
+		var count=0;
+		for (i =0; count < btTime; i++){
+			count = InputTime+count;
+			//triggerAttackRelease(note, duration of note, time when to start)
+			synth.triggerAttackRelease('A1',InputTimeVar.duration, count);
+				
+		}
+		synth.sync();
+		kick.triggerAttackRelease('B1', btTime);
+		kick.sync();
+		console.log('pass trigger');
+
+		if (Tone.context.state !== 'running') {
+			Tone.context.resume();
+
+		Tone.Transport.toggle()
+		console.log('finished')
+		}
+
+		
+
+		
+	});
+
+
+	
 }
+
