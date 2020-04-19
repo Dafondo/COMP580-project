@@ -22,16 +22,16 @@ createButton.addEventListener("click", createSong);
 
 document.onkeyup = function(e){
 
-	if (e.which == 32){				//space button to start recording
+	if (e.which == 32){				//space key to start recording
 		e.preventDefault();
 		startRecording();
-	}else if(e.which == 16){		//shift button to pause recording
+	}else if(e.which == 9){			//tab key to pause recording
 		e.preventDefault();
 		pauseRecording();
-	}else if(e.which == 13){		//enter button to stop recording 
+	}else if(e.which == 16){		//shift button to stop recording 
 		e.preventDefault();
 		stopRecording();
-	}else if (e.which == 16){		//shift button to create song
+	}else if (e.which == 13){		//enter button to create song
 		e.preventDefault();	
 		createSong()
 	}
@@ -120,6 +120,7 @@ function stopRecording() {
 	stopButton.disabled = true;
 	recordButton.disabled = false;
 	pauseButton.disabled = true;
+	createButton.disabled=false;
 
 	//reset button just in case the recording is stopped while paused
 	pauseButton.innerHTML="Pause";
@@ -136,4 +137,168 @@ function stopRecording() {
 
 function createSong(){
 	console.log("createButton clicked");
+
+	stopButton.disabled = true;
+	recordButton.disabled = false;
+	pauseButton.disabled = true;
+	createButton.disabled=true;
+
 }
+
+var buffer1=null;
+var buffer2 = null; 
+function createDownloadLink(blob) {
+
+	var url = URL.createObjectURL(blob);
+	var au = document.createElement('audio');
+	var li = document.createElement('li');
+    var link = document.createElement('a');
+    var linebreak= document.createElement("br");
+
+	// name of .wav file to use during upload and download (without extendion)
+	var filename = new Date().toISOString();
+
+	//add controls to the <audio> element
+	au.controls = true;
+	au.src = url;
+	au.id="recordingID";
+	//au.preload="metadata";
+
+    //save to disk link
+    li.appendChild(linebreak);
+    link.href = url;
+	link.download = filename+".wav"; //download forces the browser to donwload the file using the  filename
+    link.innerHTML = "Save to disk";
+
+	//add the new audio element to li
+	li.appendChild(au);
+    li.appendChild(linebreak);
+
+	//add the filename to the li
+	li.appendChild(document.createTextNode(filename+".wav "))
+
+	//add the save to disk link to li
+	li.appendChild(link);
+
+    //upload link
+    li.appendChild(linebreak);
+	var upload = document.createElement('a');
+	upload.href="#";
+	upload.innerHTML = "Upload";
+	upload.addEventListener("click", function(event){
+		  var xhr=new XMLHttpRequest();
+		  xhr.onload=function(e) {
+		      if(this.readyState === 4) {
+		          console.log("Server returned: ",e.target.responseText);
+		      }
+		  };
+		  var fd=new FormData();
+		  fd.append("audio_data",blob, filename);
+		  xhr.open("POST","upload.php",true);
+		  xhr.send(fd);
+	})
+	li.appendChild(document.createTextNode (" "))//add a space in between
+	li.appendChild(upload)//add the upload link to li
+
+	//add the li element to the ol
+	recordingsList.appendChild(li);
+	
+	//getting the duration of input audio
+	var InputTimeVar = document.getElementById("recordingID");
+	var track3input = document.getElementById("track3radio");
+	var track2input = document.getElementById("track2radio");
+	var InputTime = null;
+	var btTime=0;
+	var repeatLoop=0;
+	var btURL;
+
+	InputTimeVar.onloadedmetadata = function() {
+		console.log("time: " + InputTimeVar.duration);
+		console.log("time: " + Math.ceil(InputTimeVar.duration));
+		InputTime = Math.ceil(InputTimeVar.duration);
+
+	//duration of backtrack audio
+
+		if(track3input.checked ){
+			btURL = "./audio/track3.mp3";
+			console.log(btURL);
+			btTime = Math.ceil(document.getElementById("track3audio").duration);
+			console.log("btTime: " + btTime);
+		}else if (track2input.checked){
+			btURL = "./audio/track2.mp3";
+			console.log(btURL);
+			btTime = Math.ceil(document.getElementById("track2audio").duration);
+			console.log("btTime: " + btTime);
+
+		}
+		// btTime = Math.ceil(document.getElementById("track3").duration);
+		// console.log("btTime: " + btTime);
+
+		
+		repeatLoop = Math.ceil(btTime/InputTime);
+		console.log("repeatLoop: " + repeatLoop);
+
+		Tone.Transport.bpm.value = 108;
+		Tone.Transport.loop = true;
+		Tone.Transport.loopStart = "0m";
+		Tone.Transport.loopEnd = "2m";
+
+		//user input audio
+		const synth = new Tone.Sampler(
+		{
+			A1: url,
+		},
+		{
+			onload: () => {
+				console.log("loaded synth");
+				document.getElementById("playTrackButton").removeAttribute("disabled");
+				Tone.Transport.start();
+			}
+		}
+		).toMaster();
+
+		console.log(btURL)
+
+		//backtrack 
+		const kick = new Tone.Sampler(
+			{
+				B1: btURL,
+			},
+			{
+				onload: () => {
+					console.log("loaded kick");
+					document.getElementById("playTrackButton").removeAttribute("disabled");
+					Tone.Transport.start();
+				}
+			}
+			).toMaster();
+
+		//bind the transport
+		document.getElementById("playTrackButton").addEventListener('click', e => {
+			//synth.triggerAttackRelease('A1',InputTime);
+			var i;
+			var count=0;
+			for (i =0; count < btTime; i++){
+				count = InputTime+count;
+				//triggerAttackRelease(note, duration of note, time when to start)
+				synth.triggerAttackRelease('A1',InputTimeVar.duration, count);
+					
+			}
+			synth.sync();
+			kick.triggerAttackRelease('B1', btTime);
+			kick.sync();
+			console.log('pass trigger');
+
+			if (Tone.context.state !== 'running') {
+				Tone.context.resume();
+
+			Tone.Transport.toggle()
+			console.log('finished')
+			}
+			
+		});
+
+	};
+	
+}
+

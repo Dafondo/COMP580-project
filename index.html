@@ -15,8 +15,9 @@
 
     <div id=btnInstr> 
       <p>Click the SPACE BAR to START recording</p>
-      <p>Click the SHIFT BAR to PAUSE recording</p>
-      <p>Click the ENTER BAR to STOP recording</p>
+      <p>Click the TAB BAR to PAUSE recording</p>
+      <p>Click the SHIFT BAR to STOP recording</p>
+      <p>After recording, Click the ENTER to CREATE SONG</p>
     </div>
 
     <p id="formats">Start Recording!</p>
@@ -25,26 +26,38 @@
   	 <button id="recordButton">Record</button>
   	 <button id="pauseButton" disabled>Pause</button>
      <button id="stopButton" disabled>Stop</button>
+     <button id="createButton" disabled>Create</button>
     </div>
     <br />
+
+    <div>
+			<button id="playTrackButton">Play Track</button>
+		</div>
  
   	<!-- <p><strong>Recordings:</strong></p> -->
       <ul id="recordingsList"></ul>
     
     <!-- inserting these scripts at the end to be able to use all the elements in the DOM -->
-  	<script src="https://cdn.rawgit.com/mattdiamond/Recorderjs/08e7abd9/dist/recorder.js"></script>
+    <script src="https://cdn.rawgit.com/mattdiamond/Recorderjs/08e7abd9/dist/recorder.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.5.37/Tone.js" integrity="sha256-f6wqsImJikT2RHl8xeGUltugXM/YQtlLcbdaPf7uJhI=" crossorigin="anonymous"></script>
     <script src="app.js"></script>
     
     <h2>Audio Tracks</h2>
-      <audio controls="controls">
-          <source src = "audio/track1.mp3" type ="audio/mpeg" /> 
-      </audio>
-      <audio controls="controls"> 
+    <form action=""> 
+    
+      <input type = "radio" id = "track3radio" name="track" value="track3"> 
+      <label>Track 3</label> </br>
+      <audio controls="controls" id="track3audio" preload="auto">
+        <source src = "audio/track3.mp3" type ="audio/mpeg" /> 
+      </audio> </br>
+
+      <input type = "radio" id = "track2radio" name="track" value="track2"> 
+      <label>Track 2</label> </br>
+      <audio controls="controls" id = "track2audio" preload="auot"> 
         <source src = "audio/track2.mp3" type ="audio/mpeg" /> 
-    </audio>
-    <br>
-    <div id="create">
-      <button id="createButton" disabled>Create Song</button>
-    </div>
+      </audio> </br>
+
+    </form>
+     
   </body>
 </html>
