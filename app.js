@@ -12,13 +12,11 @@ var audioContext //audio context to help us record
 var recordButton = document.getElementById("recordButton");
 var stopButton = document.getElementById("stopButton");
 var pauseButton = document.getElementById("pauseButton");
-var createButton = document.getElementById("createButton")
 
 //add events to those 2 buttons
 recordButton.addEventListener("click", startRecording);
 stopButton.addEventListener("click", stopRecording);
 pauseButton.addEventListener("click", pauseRecording);
-createButton.addEventListener("click", createSong);
 
 document.onkeyup = function(e){
 
@@ -120,7 +118,6 @@ function stopRecording() {
 	stopButton.disabled = true;
 	recordButton.disabled = false;
 	pauseButton.disabled = true;
-	createButton.disabled=false;
 
 	//reset button just in case the recording is stopped while paused
 	pauseButton.innerHTML="Pause";
@@ -135,15 +132,6 @@ function stopRecording() {
 	rec.exportWAV(createDownloadLink);
 }
 
-function createSong(){
-	console.log("createButton clicked");
-
-	stopButton.disabled = true;
-	recordButton.disabled = false;
-	pauseButton.disabled = true;
-	createButton.disabled=true;
-
-}
 
 var buffer1=null;
 var buffer2 = null; 
@@ -272,6 +260,8 @@ function createDownloadLink(blob) {
 				}
 			}
 			).toMaster();
+		
+		
 
 		//bind the transport
 		document.getElementById("playTrackButton").addEventListener('click', e => {
@@ -295,6 +285,8 @@ function createDownloadLink(blob) {
 			Tone.Transport.toggle()
 			console.log('finished')
 			}
+
+		
 			
 		});
 

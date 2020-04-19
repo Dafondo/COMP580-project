@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
     <meta charset="UTF-8">
     <title>COMP 580 Project</title>
@@ -14,19 +14,18 @@
     
 
     <div id=btnInstr> 
-      <p>Click the SPACE BAR to START recording</p>
-      <p>Click the TAB BAR to PAUSE recording</p>
-      <p>Click the SHIFT BAR to STOP recording</p>
-      <p>After recording, Click the ENTER to CREATE SONG</p>
+      <h3>First choose which track you want</h3>
+      <h3>Click the SPACE BAR to START recording</h3>
+      <h3>Click the TAB BAR to PAUSE recording</h3>
+      <h3>Click the SHIFT BAR to STOP recording</h3>
     </div>
 
-    <p id="formats">Start Recording!</p>
+    <h2 id="formats">Start Recording!</h3>
 
     <div id="controls">
   	 <button id="recordButton">Record</button>
   	 <button id="pauseButton" disabled>Pause</button>
      <button id="stopButton" disabled>Stop</button>
-     <button id="createButton" disabled>Create</button>
     </div>
     <br />
 
@@ -44,15 +43,15 @@
     
     <h2>Audio Tracks</h2>
     <form action=""> 
-    
+      <label>
       <input type = "radio" id = "track3radio" name="track" value="track3"> 
-      <label>Track 3</label> </br>
+      Track 3</label> </br>
       <audio controls="controls" id="track3audio" preload="auto">
         <source src = "audio/track3.mp3" type ="audio/mpeg" /> 
       </audio> </br>
-
+      <label>
       <input type = "radio" id = "track2radio" name="track" value="track2"> 
-      <label>Track 2</label> </br>
+     Track 2</label> </br>
       <audio controls="controls" id = "track2audio" preload="auot"> 
         <source src = "audio/track2.mp3" type ="audio/mpeg" /> 
       </audio> </br>
