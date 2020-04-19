@@ -193,8 +193,11 @@ function createDownloadLink(blob) {
 	
 	//getting the duration of input audio
 	var InputTimeVar = document.getElementById("recordingID");
-	var track3input = document.getElementById("track3radio");
+	var track1input = document.getElementById("track1radio");
 	var track2input = document.getElementById("track2radio");
+	var track3input = document.getElementById("track3radio");
+	var track4input = document.getElementById("track4radio");
+	var track5input = document.getElementById("track5radio");
 	var InputTime = null;
 	var btTime=0;
 	var repeatLoop=0;
@@ -207,18 +210,33 @@ function createDownloadLink(blob) {
 
 	//duration of backtrack audio
 
-		if(track3input.checked ){
-			btURL = "./audio/track3.mp3";
+		if(track1input.checked ){
+			btURL = "./audio/track1.mp3";
 			console.log(btURL);
-			btTime = Math.ceil(document.getElementById("track3audio").duration);
+			btTime = Math.ceil(document.getElementById("track1audio").duration);
 			console.log("btTime: " + btTime);
-		}else if (track2input.checked){
+		} else if (track2input.checked){
 			btURL = "./audio/track2.mp3";
 			console.log(btURL);
 			btTime = Math.ceil(document.getElementById("track2audio").duration);
 			console.log("btTime: " + btTime);
-
+		} else if (track3input.checked) {
+			btURL = "./audio/track3.mp3";
+			console.log(btURL);
+			btTime = Math.ceil(document.getElementById("track3audio").duration);
+			console.log("btTime: " + btTime);
+		} else if (track4input.checked) {
+			btURL = "./audio/track4.mp3";
+			console.log(btURL);
+			btTime = Math.ceil(document.getElementById("track4audio").duration);
+			console.log("btTime: " + btTime);
+		}else if (track5input.checked) {
+			btURL = "./audio/track5.mp3";
+			console.log(btURL);
+			btTime = Math.ceil(document.getElementById("track5audio").duration);
+			console.log("btTime: " + btTime);
 		}
+
 		// btTime = Math.ceil(document.getElementById("track3").duration);
 		// console.log("btTime: " + btTime);
 
