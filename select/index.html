@@ -12,56 +12,79 @@
     <link rel="stylesheet" type="text/css" href="/css/style.css">
   </head>
   <body>
-    <div class="container-fluid">
-      <h2>Select a Backing Track</h2>
-      <form action=""> 
-        <div class="row radio-toolbar">
-          <div class="col-3">
-            <input type="radio" id="track1radio" name="track" value="track1"> 
-            <label for="track1radio">Track 1</label>
+    <div class="container">
+      <fieldset>   
+        <legend>Select a Backing Track</legend>
+        <form class="radio-toolbar" action="">
+
+          <div class="row">
+            <div class="col-3">
+              <input type="radio" id="track1radio" name="track" value="track1"> 
+              <label for="track1radio">Track 1 - Instrumental Jazz/Soul Cover</label>
+            </div>
+            <div class="col-9">
+              <audio controls="controls" id="track1audio" preload="auto">
+                <source src="/audio/track1.mp3" type="audio/mpeg" /> 
+              </audio>
+            </div>
           </div>
-          <div class="col-9">
-            <audio controls="controls" id="track1audio" preload="auto">
-              <source src="/audio/track1.mp3" type="audio/mpeg" /> 
-            </audio>
+
+          <div class="row">         
+            <div class="col-3">
+              <input type="radio" id="track2radio" name="track" value="track2"> 
+              <label for="track2radio">Track 2 - Instrumental Happy Beat</label>
+            </div>
+            <div class="col-9">
+              <audio controls="controls" id="track2audio" preload="auto">
+                <source src="/audio/track2.mp3" type="audio/mpeg" /> 
+              </audio>
+            </div>
           </div>
-          <div class="col-3">
-            <input type="radio" id="track2radio" name="track" value="track2"> 
-            <label for="track2radio">Track 2</label>
+
+          <div class="row">
+            <div class="col-3">
+              <input type="radio" id="track3radio" name="track" value="track3"> 
+              <label for="track3radio">Track 3 - Instrumental Hip Hop Beat</label>
+            </div>
+            <div class="col-9">
+              <audio controls="controls" id="track3audio" preload="auto">
+                <source src="/audio/track3.mp3" type="audio/mpeg" /> 
+              </audio>
+            </div>
           </div>
-          <div class="col-9">
-            <audio controls="controls" id="track2audio" preload="auto">
-              <source src="/audio/track2.mp3" type="audio/mpeg" /> 
-            </audio>
-          </div><div class="col-3">
-            <input type="radio" id="track3radio" name="track" value="track3"> 
-            <label for="track3radio">Track 3</label>
+
+          <div class="row">
+            <div class="col-3">
+              <input type="radio" id="track4radio" name="track" value="track4"> 
+              <label for="track4radio">Track 4 - Instrumental Rap Beat</label>
+            </div>
+            <div class="col-9">
+              <audio controls="controls" id="track4audio" preload="auto">
+                <source src="/audio/track4.mp3" type="audio/mpeg" /> 
+              </audio>
+            </div>
           </div>
-          <div class="col-9">
-            <audio controls="controls" id="track3audio" preload="auto">
-              <source src="/audio/track3.mp3" type="audio/mpeg" /> 
-            </audio>
+
+          <div class="row">
+            <div class="col-3">
+              <input type="radio" id="track5radio" name="track" value="track5"> 
+              <label for="track5radio">Track 5 - Acoustic Piano Guitar Backing Track</label>
+            </div>
+            <div class="col-9">
+              <audio controls="controls" id="track5audio" preload="auto">
+                <source src="/audio/track5.mp3" type="audio/mpeg" /> 
+              </audio>
+            </div>
           </div>
-          <!-- <div class="col-s12">
-            <input type="radio" id = "track4radio" name="track" value="track4"> 
-            <label for="track4radio">Track 4</label>
-            <audio controls="controls" id="track3audio" preload="auto">
-              <source src="/audio/track4.mp3" type="audio/mpeg" /> 
-            </audio>
+
+          <div class="row">
+            <div class="col-12">
+              <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
           </div>
-          <div class="col-s12">
-            <input type="radio" id="track5radio" name="track" value="track5"> 
-            <label for="track5radio">Track 5</label>
-            <audio controls="controls" id="track3audio" preload="auto">
-              <source src="/audio/track5.mp3" type="audio/mpeg" /> 
-            </audio>
-          </div> -->
-          <div class="col-s12">
-            <button type="submit" class="btn btn-primary">Submit</button>
-          </div>
-          
-        </div>
-      </form>
+
+        </form>
+      </fieldset>
     </div>
   <script src="/js/select.js"></script>
   </body>
