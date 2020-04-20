@@ -18,17 +18,22 @@ recordButton.addEventListener("click", startRecording);
 stopButton.addEventListener("click", stopRecording);
 pauseButton.addEventListener("click", pauseRecording);
 
+var isRecording = false;
+
 document.onkeyup = function(e){
 
-	if (e.which == 32){				//space key to start recording
+	if (e.which == 32 && !isRecording){				//space key to start recording
 		e.preventDefault();
 		startRecording();
-	}else if(e.which == 9){			//tab key to pause recording
+		isRecording = true;
+	}else if(e.which == 9 && isRecording){			//tab key to pause recording
 		e.preventDefault();
 		pauseRecording();
-	}else if(e.which == 16){		//shift button to stop recording 
+		isRecording = false;
+	}else if(e.which == 16 && isRecording){		//shift button to stop recording 
 		e.preventDefault();
 		stopRecording();
+		isRecording = false;
 	}else if (e.which == 13){		//enter button to create song
 		e.preventDefault();	
 		createSong()
