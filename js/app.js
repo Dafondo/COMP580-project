@@ -11,12 +11,10 @@ var audioContext //audio context to help us record
 
 var recordButton = document.getElementById("recordButton");
 var stopButton = document.getElementById("stopButton");
-var pauseButton = document.getElementById("pauseButton");
 
 //add events to those 2 buttons
 recordButton.addEventListener("click", startRecording);
 stopButton.addEventListener("click", stopRecording);
-pauseButton.addEventListener("click", pauseRecording);
 
 var isRecording = false;
 
@@ -26,11 +24,7 @@ document.onkeyup = function(e){
 		e.preventDefault();
 		startRecording();
 		isRecording = true;
-	}else if(e.which == 9 && isRecording){			//tab key to pause recording
-		e.preventDefault();
-		pauseRecording();
-		isRecording = false;
-	}else if(e.which == 16 && isRecording){		//shift button to stop recording 
+	}else if(e.which == 32 && isRecording){		//shift button to stop recording 
 		e.preventDefault();
 		stopRecording();
 		isRecording = false;
@@ -56,7 +50,6 @@ document.onkeyup = function(e){
 
 	recordButton.disabled = true;
 	stopButton.disabled = false;
-	pauseButton.disabled = false
 
 	/*
     	We're using the standard promise based getUserMedia() 
@@ -97,22 +90,7 @@ document.onkeyup = function(e){
 	  	//enable the record button if getUserMedia() fails
     	recordButton.disabled = false;
     	stopButton.disabled = true;
-    	pauseButton.disabled = true
 	});
-}
-
-function pauseRecording(){
-	console.log("pauseButton clicked rec.recording=",rec.recording );
-	if (rec.recording){
-		//pause
-		rec.stop();
-		pauseButton.innerHTML="Resume";
-	}else{
-		//resume
-		rec.record()
-		pauseButton.innerHTML="Pause";
-
-	}
 }
 
 function stopRecording() {
@@ -122,10 +100,6 @@ function stopRecording() {
 	//disable the stop button, enable the record too allow for new recordings
 	stopButton.disabled = true;
 	recordButton.disabled = false;
-	pauseButton.disabled = true;
-
-	//reset button just in case the recording is stopped while paused
-	pauseButton.innerHTML="Pause";
 	
 	//tell the recorder to stop the recording
     rec.stop();
