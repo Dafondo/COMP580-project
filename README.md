@@ -1,4 +1,4 @@
-# COMP580-project
+# Song Creator
 Live demo found here: [https://dafondo.github.io/COMP580-project/](https://dafondo.github.io/COMP580-project/)
 
 ## About
