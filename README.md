@@ -11,4 +11,4 @@ This is a music creation app with a limited degree of freedom. The user is given
 1. Click the "Record" button or hit the space bar to start recording
     1. We don't trim silent portions out, so please try to record your sound as soon as you click the button
 1. Once your finished recording, click the "Play Track" button to listen to your song.
-Note: Users with visual impairments can use the ChromeVox Classic Extension or other screen reading programs to successfully access and use the demo.
+1. Note: Users with visual impairments can use the ChromeVox Classic Extension or other screen reading programs to successfully access and use the demo.
